@@ -1,34 +1,30 @@
-// 获取 HTML 元素
-const rouletteWheel = document.getElementById('roulette-wheel');
-const resultDisplay = document.getElementById('winning-number');
-const userBetInput = document.getElementById('user-bet');
+document.addEventListener("DOMContentLoaded", () => {
+    const spinButton = document.getElementById("spin-button");
+    const resultDiv = document.getElementById("result");
+    const rouletteBackground = document.getElementById("roulette-background");
 
-// 轮盘数字
-const rouletteNumbers = Array.from({ length: 37 }, (_, i) => i);
+    spinButton.addEventListener("click", () => {
+        const betNumber = parseInt(document.getElementById("bet-number").value, 10);
+        if (isNaN(betNumber) || betNumber < 0 || betNumber > 36) {
+            resultDiv.textContent = "请输入有效的数字 (0-36)。";
+            return;
+        }
 
-// 随机选择中奖号码
-function getRandomNumber() {
-    return rouletteNumbers[Math.floor(Math.random() * rouletteNumbers.length)];
-}
+        // 旋转逻辑
+        const winningNumber = Math.floor(Math.random() * 37); // 0 to 36
+        const degrees = winningNumber * (360 / 37); // 每个数字的角度
+        const totalRotation = 3600 + degrees; // 多圈旋转加上目标位置
 
-// 旋转轮盘
-function spinRoulette() {
-    const userBet = parseInt(userBetInput.value);
-    if (isNaN(userBet) || userBet < 0 || userBet > 36) {
-        alert('请输入有效的数字 (0-36)。');
-        return;
-    }
+        rouletteBackground.style.transition = "transform 4s ease-out";
+        rouletteBackground.style.transform = `rotate(${totalRotation}deg)`;
 
-    const spinDuration = 3000; // 旋转时间 (毫秒)
-    const winningNumber = getRandomNumber(); // 随机中奖号码
-    const degrees = 360 * 5 + (winningNumber * (360 / 37)); // 确定旋转角度
-
-    // 添加旋转动画
-    rouletteWheel.style.transition = `transform ${spinDuration}ms ease-out`;
-    rouletteWheel.style.transform = `rotate(${degrees}deg)`;
-
-    // 延迟显示结果
-    setTimeout(() => {
-        resultDisplay.textContent = `中奖号码是 ${winningNumber}${winningNumber === userBet ? '，恭喜你赢了！' : '，你输了！'}`;
-    }, spinDuration);
-}
+        // 显示结果
+        setTimeout(() => {
+            if (betNumber === winningNumber) {
+                resultDiv.textContent = `恭喜你！中奖号码是 ${winningNumber}，你赢了！`;
+            } else {
+                resultDiv.textContent = `很遗憾，中奖号码是 ${winningNumber}，你输了！`;
+            }
+        }, 4000);
+    });
+});
