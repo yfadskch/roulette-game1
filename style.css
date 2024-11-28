@@ -17,6 +17,7 @@ body {
   background: url('images/roulette-background.png') no-repeat center center; /* 引用 images 文件夹中的图片 */
   background-size: cover; /* 自适应轮盘大小 */
   border-radius: 50%; /* 圆形轮盘 */
+  animation: none; /* 动画初始化 */
 }
 
 /* 指针样式 */
@@ -62,8 +63,10 @@ body {
 @keyframes spin {
   from {
     transform: rotate(0deg);
+    filter: blur(2px); /* 动态模糊 */
   }
   to {
     transform: rotate(360deg);
+    filter: blur(0); /* 停止时清晰 */
   }
 }

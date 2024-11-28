@@ -1,74 +1,67 @@
-// 获取轮盘和结果的DOM元素
-const wheel = document.getElementById('roulette-container');
-const result = document.getElementById('result');
-const spinButton = document.getElementById('spin-button');
+// 初始化积分和游戏状态
+let points = 100;
+let isSpinning = false;
 
-let isSpinning = false; // 防止重复点击旋转按钮
+// 获取 DOM 元素
+const spinButton = document.getElementById("spin-button");
+const betInput = document.getElementById("bet");
+const resultDisplay = document.getElementById("result");
+const pointsDisplay = document.getElementById("points");
+const rouletteContainer = document.getElementById("roulette-container");
+const spinSound = document.getElementById("spin-sound");
 
-// 轮盘数据：包含数字和对应颜色
-const rouletteData = [
-  { number: 0, color: '绿色' },
-  { number: 1, color: '红色' },
-  { number: 2, color: '黑色' },
-  { number: 3, color: '红色' },
-  { number: 4, color: '黑色' },
-  { number: 5, color: '红色' },
-  { number: 6, color: '黑色' },
-  { number: 7, color: '红色' },
-  { number: 8, color: '黑色' },
-  { number: 9, color: '红色' },
-  { number: 10, color: '黑色' },
-  { number: 11, color: '黑色' },
-  { number: 12, color: '红色' },
-  { number: 13, color: '黑色' },
-  { number: 14, color: '红色' },
-  { number: 15, color: '黑色' },
-  { number: 16, color: '红色' },
-  { number: 17, color: '黑色' },
-  { number: 18, color: '红色' },
-  { number: 19, color: '红色' },
-  { number: 20, color: '黑色' },
-  { number: 21, color: '红色' },
-  { number: 22, color: '黑色' },
-  { number: 23, color: '红色' },
-  { number: 24, color: '黑色' },
-  { number: 25, color: '红色' },
-  { number: 26, color: '黑色' },
-  { number: 27, color: '红色' },
-  { number: 28, color: '黑色' },
-  { number: 29, color: '黑色' },
-  { number: 30, color: '红色' },
-  { number: 31, color: '黑色' },
-  { number: 32, color: '红色' },
-  { number: 33, color: '黑色' },
-  { number: 34, color: '红色' },
-  { number: 35, color: '黑色' },
-  { number: 36, color: '红色' }
-];
+// 更新积分显示
+function updatePoints(won) {
+  if (won) {
+    points += 50;
+  } else {
+    points -= 10;
+  }
+  pointsDisplay.textContent = `积分：${points}`;
+}
 
-// 点击旋转按钮的逻辑
-spinButton.addEventListener('click', () => {
-  if (isSpinning) return; // 防止重复旋转
+// 随机生成轮盘结果
+function getRandomNumber() {
+  return Math.floor(Math.random() * 37); // 生成 0 到 36 的数字
+}
+
+// 轮盘旋转动画
+function spinRoulette(targetNumber) {
   isSpinning = true;
+  const spins = Math.floor(Math.random() * 5) + 5; // 随机旋转圈数
+  const anglePerNumber = 360 / 37;
+  const targetAngle = targetNumber * anglePerNumber;
 
-  // 随机生成旋转角度
-  const randomAngle = Math.floor(Math.random() * 360);
+  rouletteContainer.style.animation = `spin ${spins + 2}s ease-out`;
 
-  // 设置旋转动画
-  wheel.style.transition = 'transform 4s ease-out'; // 动画时间
-  wheel.style.transform = `rotate(${3600 + randomAngle}deg)`; // 停止角度
-
-  // 旋转结束后计算结果
   setTimeout(() => {
-    isSpinning = false; // 重置状态
-    wheel.style.transition = 'none'; // 移除动画
-    wheel.style.transform = `rotate(${randomAngle}deg)`; // 固定角度
+    rouletteContainer.style.transform = `rotate(${spins * 360 + targetAngle}deg)`;
+    isSpinning = false;
+  }, (spins + 2) * 1000);
+}
 
-    // 根据角度计算结果
-    const resultIndex = Math.floor((randomAngle / 360) * rouletteData.length) % rouletteData.length;
-    const resultData = rouletteData[resultIndex];
+// 游戏逻辑
+spinButton.addEventListener("click", () => {
+  if (isSpinning) return; // 如果轮盘正在旋转，则不允许再次点击
+  const bet = parseInt(betInput.value);
+  if (isNaN(bet) || bet < 0 || bet > 36) {
+    resultDisplay.textContent = "请输入一个有效的数字（0-36）！";
+    return;
+  }
 
-    // 显示结果
-    result.textContent = `结果是：数字 ${resultData.number} (${resultData.color})！`;
-  }, 4000); // 动画时长一致
+  // 播放旋转音效
+  spinSound.play();
+
+  const randomNumber = getRandomNumber();
+  spinRoulette(randomNumber);
+
+  setTimeout(() => {
+    if (randomNumber === bet) {
+      resultDisplay.textContent = `恭喜！中奖号码是 ${randomNumber}，你赢了！`;
+      updatePoints(true);
+    } else {
+      resultDisplay.textContent = `很遗憾，中奖号码是 ${randomNumber}，你输了！`;
+      updatePoints(false);
+    }
+  }, 7000); // 等待动画结束后显示结果
 });
