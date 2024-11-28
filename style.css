@@ -9,10 +9,25 @@ body {
 }
 
 #roulette-container {
+  position: relative;
   margin: 50px auto;
   width: 400px;
   height: 400px;
   background: url('images/roulette-background.png.jpg') no-repeat center center;
   background-size: cover;
   border-radius: 50%;
+}
+
+#highlight {
+  position: absolute;
+  width: 40px; /* 高亮标识符宽度 */
+  height: 40px; /* 高亮标识符高度 */
+  background: rgba(255, 255, 0, 0.5); /* 半透明黄色 */
+  border: 2px solid yellow; /* 黄色边框 */
+  border-radius: 50%; /* 圆形高亮 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -180%); /* 初始位置在轮盘顶部 */
+  z-index: 2; /* 确保高亮在轮盘上方 */
+  pointer-events: none;
 }

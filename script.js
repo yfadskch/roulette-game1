@@ -11,6 +11,7 @@ const resultDisplay = document.getElementById("result");
 const pointsDisplay = document.getElementById("points");
 const rouletteContainer = document.getElementById("roulette-container");
 const spinSound = document.getElementById("spin-sound");
+const highlight = document.getElementById("highlight"); // 高亮标识符
 
 // 更新积分显示
 function updatePoints(won) {
@@ -34,6 +35,16 @@ function getNumberFromAngle(angle) {
   return (totalNumbers - numberIndex) % totalNumbers; // 映射号码（逆时针排列）
 }
 
+// 根据号码计算高亮位置
+function setHighlightPosition(number) {
+  const angle = number * anglePerNumber; // 计算对应号码的角度
+  const radius = 160; // 高亮环半径（相对于轮盘中心）
+  const radian = (angle - 90) * (Math.PI / 180); // 转换为弧度（角度 - 90° 是因为顶部是起点）
+  const x = radius * Math.cos(radian); // x 坐标
+  const y = radius * Math.sin(radian); // y 坐标
+  highlight.style.transform = `translate(${x}px, ${y}px)`; // 动态设置高亮位置
+}
+
 // 轮盘旋转动画
 function spinRoulette(targetNumber) {
   isSpinning = true;
@@ -49,6 +60,7 @@ function spinRoulette(targetNumber) {
   setTimeout(() => {
     const finalAngle = totalRotation % 360; // 最终角度
     const finalNumber = getNumberFromAngle(finalAngle); // 计算号码
+    setHighlightPosition(finalNumber); // 高亮对应号码
     resultDisplay.textContent = `中奖号码是 ${finalNumber}`;
     isSpinning = false;
   }, 5000);
