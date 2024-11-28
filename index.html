@@ -1,72 +1,24 @@
-/* 全局样式 */
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #2c3e50; /* 深蓝色背景 */
-  color: white;
-  margin: 0;
-  padding: 0;
-}
-
-/* 轮盘容器样式 */
-#roulette-container {
-  position: relative;
-  margin: 50px auto;
-  width: 400px; /* 设置宽度 */
-  height: 400px; /* 设置高度 */
-  background: url('images/roulette-background.png') no-repeat center center; /* 引用 images 文件夹中的图片 */
-  background-size: cover; /* 自适应轮盘大小 */
-  border-radius: 50%; /* 圆形轮盘 */
-  animation: none; /* 动画初始化 */
-}
-
-/* 指针样式 */
-#pointer {
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-  border-bottom: 40px solid yellow;
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2; /* 确保指针在轮盘上方 */
-}
-
-/* 按钮样式 */
-#actions {
-  margin-top: 20px;
-}
-
-#actions button {
-  padding: 10px 20px;
-  margin: 10px;
-  background-color: #2980b9; /* 按钮蓝色 */
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-}
-
-#actions button:hover {
-  background-color: #3498db; /* 按钮悬停颜色 */
-}
-
-/* 结果显示样式 */
-#result {
-  margin-top: 20px;
-  font-size: 1.5em;
-}
-
-/* 动画效果 */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-    filter: blur(2px); /* 动态模糊 */
-  }
-  to {
-    transform: rotate(360deg);
-    filter: blur(0); /* 停止时清晰 */
-  }
-}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>轮盘游戏</title>
+  <link rel="stylesheet" href="style.css"> <!-- 引用样式文件 -->
+</head>
+<body>
+  <h1>轮盘游戏</h1>
+  <div id="roulette-container">
+    <div id="pointer"></div>
+  </div>
+  <div id="actions">
+    <label for="bet">请选择数字（0-36）:</label>
+    <input type="number" id="bet" min="0" max="36">
+    <button id="spin-button">旋转轮盘</button>
+  </div>
+  <p id="result">准备下注！</p>
+  <p id="points">积分：100</p>
+  <audio id="spin-sound" src="spin-sound.mp3"></audio> <!-- 音效文件 -->
+  <script src="script.js"></script> <!-- 引用 JavaScript 文件 -->
+</body>
+</html>
