@@ -9,16 +9,17 @@
 <body>
     <h1>轮盘游戏</h1>
     <div id="roulette-container">
-        <img src="images/roulette-background.png" alt="Roulette Background" class="roulette">
-        <img src="images/indicator_pointer.png" alt="Pointer" id="pointer">
+        <img src="images/roulette-background.png" alt="Roulette Background" id="roulette-wheel">
+        <img src="images/indicator_pointer.png" alt="Indicator Pointer" id="roulette-pointer">
     </div>
     <div id="actions">
-        <label for="number">请选择数字 (0-36)：</label>
-        <input type="number" id="number" min="0" max="36">
-        <button id="spin-button">旋转轮盘</button>
+        <label for="user-bet">请选择数字 (0-36)：</label>
+        <input type="number" id="user-bet" min="0" max="36">
+        <button onclick="spinRoulette()">旋转轮盘</button>
     </div>
-    <p id="result"></p>
-    <p id="score"></p>
+    <div id="result">
+        <p id="winning-number">准备下注！</p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,32 +1,34 @@
-const spinButton = document.getElementById('spin-button');
-const resultElement = document.getElementById('result');
-const scoreElement = document.getElementById('score');
-const pointer = document.getElementById('pointer');
+// 获取 HTML 元素
+const rouletteWheel = document.getElementById('roulette-wheel');
+const resultDisplay = document.getElementById('winning-number');
+const userBetInput = document.getElementById('user-bet');
 
-let currentScore = 0;
+// 轮盘数字
+const rouletteNumbers = Array.from({ length: 37 }, (_, i) => i);
 
-spinButton.addEventListener('click', () => {
-    const userNumber = parseInt(document.getElementById('number').value);
+// 随机选择中奖号码
+function getRandomNumber() {
+    return rouletteNumbers[Math.floor(Math.random() * rouletteNumbers.length)];
+}
 
-    if (isNaN(userNumber) || userNumber < 0 || userNumber > 36) {
-        resultElement.textContent = '请输入一个有效的数字 (0-36)';
+// 旋转轮盘
+function spinRoulette() {
+    const userBet = parseInt(userBetInput.value);
+    if (isNaN(userBet) || userBet < 0 || userBet > 36) {
+        alert('请输入有效的数字 (0-36)。');
         return;
     }
 
-    const winningNumber = Math.floor(Math.random() * 37); // 0 to 36
-    const rotationDegrees = 360 * 3 + (winningNumber * (360 / 37));
+    const spinDuration = 3000; // 旋转时间 (毫秒)
+    const winningNumber = getRandomNumber(); // 随机中奖号码
+    const degrees = 360 * 5 + (winningNumber * (360 / 37)); // 确定旋转角度
 
-    pointer.style.transition = 'transform 3s ease-out';
-    pointer.style.transform = `rotate(${rotationDegrees}deg)`;
+    // 添加旋转动画
+    rouletteWheel.style.transition = `transform ${spinDuration}ms ease-out`;
+    rouletteWheel.style.transform = `rotate(${degrees}deg)`;
 
+    // 延迟显示结果
     setTimeout(() => {
-        if (userNumber === winningNumber) {
-            resultElement.textContent = `恭喜你，中奖号码是 ${winningNumber}，你赢了！`;
-            currentScore += 100;
-        } else {
-            resultElement.textContent = `很遗憾，中奖号码是 ${winningNumber}，你输了！`;
-            currentScore -= 50;
-        }
-        scoreElement.textContent = `积分：${currentScore}`;
-    }, 3000);
-});
+        resultDisplay.textContent = `中奖号码是 ${winningNumber}${winningNumber === userBet ? '，恭喜你赢了！' : '，你输了！'}`;
+    }, spinDuration);
+}
