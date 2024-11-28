@@ -14,7 +14,7 @@ body {
   margin: 50px auto;
   width: 400px; /* 设置宽度 */
   height: 400px; /* 设置高度 */
-  background: url('images/roulette-background.png') no-repeat center center; /* 背景图片 */
+  background: url('images/roulette-background.png.jpg') no-repeat center center; /* 图片路径 */
   background-size: cover; /* 自适应轮盘大小 */
   border-radius: 50%; /* 圆形轮盘 */
   animation: none; /* 动画初始化 */
