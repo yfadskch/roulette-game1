@@ -14,26 +14,22 @@ body {
   margin: 50px auto;
   width: 400px;
   height: 400px;
-  background: url('images/roulette-background.png.jpg') no-repeat center center;
+  background: url('images/roulette-background.png') no-repeat center center;
   background-size: cover;
   border-radius: 50%;
   animation: none;
 }
 
-/* 高亮区域样式 */
-#highlight {
+/* 指示器图片样式 */
+#indicator {
   position: absolute;
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 0, 0.6);
-  border-radius: 50%;
-  border: 2px solid yellow;
-  top: 50%;
+  width: 20px; /* 指示器图片宽度 */
+  height: 400px; /* 指示器图片高度 */
+  top: 0;
   left: 50%;
-  transform: translate(-50%, -180%);
-  z-index: 2;
-  pointer-events: none;
-  display: none; /* 默认隐藏 */
+  transform: translateX(-50%);
+  z-index: 3;
+  display: none;
 }
 
 /* 按钮样式 */
