@@ -1,0 +1,65 @@
+/* 全局样式 */
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #2c3e50;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+/* 轮盘容器样式 */
+#roulette-container {
+  position: relative;
+  margin: 50px auto;
+  width: 400px; /* 设置宽度 */
+  height: 400px; /* 设置高度 */
+  background: url('images/roulette-background.png') no-repeat center center;
+  background-size: cover; /* 让图片适应轮盘大小 */
+  border-radius: 50%; /* 圆形轮盘 */
+}
+
+/* 指针样式 */
+#pointer {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 40px solid yellow;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* 按钮样式 */
+#actions {
+  margin-top: 20px;
+}
+
+#actions button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #2980b9;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+#actions button:hover {
+  background-color: #3498db;
+}
+
+/* 结果显示样式 */
+#result {
+  margin-top: 20px;
+  font-size: 1.5em;
+}
+
+/* 动画效果 */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
