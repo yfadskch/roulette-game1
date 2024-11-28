@@ -8,6 +8,7 @@ body {
   padding: 0;
 }
 
+/* 轮盘容器样式 */
 #roulette-container {
   position: relative;
   margin: 50px auto;
@@ -16,18 +17,67 @@ body {
   background: url('images/roulette-background.png.jpg') no-repeat center center;
   background-size: cover;
   border-radius: 50%;
+  animation: none;
 }
 
+/* 高亮区域样式 */
 #highlight {
   position: absolute;
-  width: 40px; /* 高亮标识符宽度 */
-  height: 40px; /* 高亮标识符高度 */
-  background: rgba(255, 255, 0, 0.5); /* 半透明黄色 */
-  border: 2px solid yellow; /* 黄色边框 */
-  border-radius: 50%; /* 圆形高亮 */
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 0, 0.6);
+  border-radius: 50%;
+  border: 2px solid yellow;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -180%); /* 初始位置在轮盘顶部 */
-  z-index: 2; /* 确保高亮在轮盘上方 */
+  transform: translate(-50%, -180%);
+  z-index: 2;
   pointer-events: none;
+  display: none; /* 默认隐藏 */
+}
+
+/* 按钮样式 */
+#actions {
+  margin-top: 20px;
+}
+
+#actions button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #2980b9;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+#actions button:hover {
+  background-color: #3498db;
+}
+
+/* 中奖数字显示 */
+#winner-number {
+  font-size: 2em;
+  font-weight: bold;
+  color: yellow;
+  margin: 20px 0;
+  display: none;
+}
+
+/* 积分显示 */
+#points {
+  margin-top: 10px;
+  font-size: 1.5em;
+}
+
+/* 动画效果 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+    filter: blur(2px);
+  }
+  to {
+    transform: rotate(360deg);
+    filter: blur(0);
+  }
 }
