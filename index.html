@@ -1,25 +1,24 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>轮盘游戏</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮盘游戏</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>轮盘游戏</h1>
-  <div id="roulette-container">
-    <img id="indicator" src="images/indicator_pointer.png" alt="指示器">
-  </div>
-  <div id="winner-number">中奖号码：<span id="winner">0</span></div>
-  <div id="actions">
-    <label for="bet">请选择数字（0-36）:</label>
-    <input type="number" id="bet" min="0" max="36">
-    <button id="spin-button">旋转轮盘</button>
-  </div>
-  <p id="result">准备下注！</p>
-  <p id="points">积分：100</p>
-  <audio id="spin-sound" src="spin-sound.mp3"></audio>
-  <script src="script.js"></script>
+    <h1>轮盘游戏</h1>
+    <div id="roulette-container">
+        <img src="images/roulette-background.png" alt="Roulette Background" class="roulette">
+        <img src="images/indicator_pointer.png" alt="Pointer" id="pointer">
+    </div>
+    <div id="actions">
+        <label for="number">请选择数字 (0-36)：</label>
+        <input type="number" id="number" min="0" max="36">
+        <button id="spin-button">旋转轮盘</button>
+    </div>
+    <p id="result"></p>
+    <p id="score"></p>
+    <script src="script.js"></script>
 </body>
 </html>
