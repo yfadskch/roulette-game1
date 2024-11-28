@@ -1,6 +1,8 @@
 // 初始化积分和游戏状态
 let points = 100;
 let isSpinning = false;
+const totalNumbers = 37; // 轮盘号码总数
+const anglePerNumber = 360 / totalNumbers; // 每个号码对应的角度
 
 // 获取 DOM 元素
 const spinButton = document.getElementById("spin-button");
@@ -22,22 +24,34 @@ function updatePoints(won) {
 
 // 随机生成轮盘结果
 function getRandomNumber() {
-  return Math.floor(Math.random() * 37); // 生成 0 到 36 的数字
+  return Math.floor(Math.random() * totalNumbers); // 生成 0 到 36 的数字
+}
+
+// 根据角度计算号码
+function getNumberFromAngle(angle) {
+  const normalizedAngle = angle % 360; // 取模 360，获取当前角度
+  const numberIndex = Math.floor(normalizedAngle / anglePerNumber); // 计算号码索引
+  return (totalNumbers - numberIndex) % totalNumbers; // 映射号码（逆时针排列）
 }
 
 // 轮盘旋转动画
 function spinRoulette(targetNumber) {
   isSpinning = true;
   const spins = Math.floor(Math.random() * 5) + 5; // 随机旋转圈数
-  const anglePerNumber = 360 / 37;
-  const targetAngle = targetNumber * anglePerNumber;
+  const targetAngle = targetNumber * anglePerNumber; // 目标角度
 
-  rouletteContainer.style.animation = `spin ${spins + 2}s ease-out`;
+  // 设置动画
+  const totalRotation = spins * 360 + targetAngle;
+  rouletteContainer.style.transition = "transform 5s ease-out"; // 动画过渡
+  rouletteContainer.style.transform = `rotate(${totalRotation}deg)`; // 旋转
 
+  // 等待动画结束后显示结果
   setTimeout(() => {
-    rouletteContainer.style.transform = `rotate(${spins * 360 + targetAngle}deg)`;
+    const finalAngle = totalRotation % 360; // 最终角度
+    const finalNumber = getNumberFromAngle(finalAngle); // 计算号码
+    resultDisplay.textContent = `中奖号码是 ${finalNumber}`;
     isSpinning = false;
-  }, (spins + 2) * 1000);
+  }, 5000);
 }
 
 // 游戏逻辑
@@ -52,16 +66,16 @@ spinButton.addEventListener("click", () => {
   // 播放旋转音效
   spinSound.play();
 
-  const randomNumber = getRandomNumber();
+  const randomNumber = getRandomNumber(); // 随机生成目标号码
   spinRoulette(randomNumber);
 
   setTimeout(() => {
     if (randomNumber === bet) {
-      resultDisplay.textContent = `恭喜！中奖号码是 ${randomNumber}，你赢了！`;
+      resultDisplay.textContent += "，恭喜你赢了！";
       updatePoints(true);
     } else {
-      resultDisplay.textContent = `很遗憾，中奖号码是 ${randomNumber}，你输了！`;
+      resultDisplay.textContent += "，很遗憾，你输了！";
       updatePoints(false);
     }
-  }, 7000); // 等待动画结束后显示结果
+  }, 6000); // 等待动画和结果显示完成
 });

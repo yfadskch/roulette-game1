@@ -4,85 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>轮盘游戏</title>
-  <style>
-    /* 全局样式 */
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background-color: #2c3e50; /* 深蓝色背景 */
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-
-    /* 轮盘容器样式 */
-    #roulette-container {
-      position: relative;
-      margin: 50px auto;
-      width: 400px; /* 设置宽度 */
-      height: 400px; /* 设置高度 */
-      background: url('images/roulette-background.png.jpg') no-repeat center center; /* 图片路径 */
-      background-size: cover; /* 自适应轮盘大小 */
-      border-radius: 50%; /* 圆形轮盘 */
-      animation: none; /* 动画初始化 */
-    }
-
-    /* 指针样式 */
-    #pointer {
-      width: 0;
-      height: 0;
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      border-bottom: 40px solid yellow;
-      position: absolute;
-      top: 50%; /* 定位到屏幕中心 */
-      left: 50%; /* 定位到屏幕中心 */
-      transform: translate(-50%, -100%); /* 使指针位于轮盘顶部中央 */
-      z-index: 2; /* 确保指针在轮盘上方 */
-    }
-
-    /* 按钮样式 */
-    #actions {
-      margin-top: 20px;
-    }
-
-    #actions button {
-      padding: 10px 20px;
-      margin: 10px;
-      background-color: #2980b9; /* 按钮蓝色 */
-      border: none;
-      border-radius: 5px;
-      color: white;
-      cursor: pointer;
-    }
-
-    #actions button:hover {
-      background-color: #3498db; /* 按钮悬停颜色 */
-    }
-
-    /* 结果显示样式 */
-    #result {
-      margin-top: 20px;
-      font-size: 1.5em;
-    }
-
-    /* 动画效果 */
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-        filter: blur(2px); /* 动态模糊 */
-      }
-      to {
-        transform: rotate(360deg);
-        filter: blur(0); /* 停止时清晰 */
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>轮盘游戏</h1>
-  <div id="pointer"></div> <!-- 将指针独立 -->
-  <div id="roulette-container"></div>
+  <div id="roulette-container"></div> <!-- 删除指针 -->
   <div id="actions">
     <label for="bet">请选择数字（0-36）:</label>
     <input type="number" id="bet" min="0" max="36">
@@ -90,75 +16,7 @@
   </div>
   <p id="result">准备下注！</p>
   <p id="points">积分：100</p>
-  <audio id="spin-sound" src="spin-sound.mp3"></audio> <!-- 引用音效 -->
-  <script>
-    // 初始化积分和游戏状态
-    let points = 100;
-    let isSpinning = false;
-
-    // 获取 DOM 元素
-    const spinButton = document.getElementById("spin-button");
-    const betInput = document.getElementById("bet");
-    const resultDisplay = document.getElementById("result");
-    const pointsDisplay = document.getElementById("points");
-    const rouletteContainer = document.getElementById("roulette-container");
-    const spinSound = document.getElementById("spin-sound");
-
-    // 更新积分显示
-    function updatePoints(won) {
-      if (won) {
-        points += 50;
-      } else {
-        points -= 10;
-      }
-      pointsDisplay.textContent = `积分：${points}`;
-    }
-
-    // 随机生成轮盘结果
-    function getRandomNumber() {
-      return Math.floor(Math.random() * 37); // 生成 0 到 36 的数字
-    }
-
-    // 轮盘旋转动画
-    function spinRoulette(targetNumber) {
-      isSpinning = true;
-      const spins = Math.floor(Math.random() * 5) + 5; // 随机旋转圈数
-      const anglePerNumber = 360 / 37;
-      const targetAngle = targetNumber * anglePerNumber;
-
-      rouletteContainer.style.animation = `spin ${spins + 2}s ease-out`;
-
-      setTimeout(() => {
-        rouletteContainer.style.transform = `rotate(${spins * 360 + targetAngle}deg)`;
-        isSpinning = false;
-      }, (spins + 2) * 1000);
-    }
-
-    // 游戏逻辑
-    spinButton.addEventListener("click", () => {
-      if (isSpinning) return; // 如果轮盘正在旋转，则不允许再次点击
-      const bet = parseInt(betInput.value);
-      if (isNaN(bet) || bet < 0 || bet > 36) {
-        resultDisplay.textContent = "请输入一个有效的数字（0-36）！";
-        return;
-      }
-
-      // 播放旋转音效
-      spinSound.play();
-
-      const randomNumber = getRandomNumber();
-      spinRoulette(randomNumber);
-
-      setTimeout(() => {
-        if (randomNumber === bet) {
-          resultDisplay.textContent = `恭喜！中奖号码是 ${randomNumber}，你赢了！`;
-          updatePoints(true);
-        } else {
-          resultDisplay.textContent = `很遗憾，中奖号码是 ${randomNumber}，你输了！`;
-          updatePoints(false);
-        }
-      }, 7000); // 等待动画结束后显示结果
-    });
-  </script>
+  <audio id="spin-sound" src="spin-sound.mp3"></audio>
+  <script src="script.js"></script>
 </body>
 </html>
